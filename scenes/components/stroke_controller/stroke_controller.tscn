@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://cmlkptrldb5d7"]
+
+[node name="StrokeController" type="Line2D"]
+position = Vector2(331, 324)
+points = PackedVector2Array(0, 0, 100.915, 0)
