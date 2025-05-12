@@ -1,0 +1,134 @@
+[gd_scene load_steps=6 format=3 uid="uid://2f2vy11g07hv"]
+
+[ext_resource type="Script" uid="uid://doqnjmjycrfda" path="res://Main/main.gd" id="1_yh5la"]
+[ext_resource type="Shader" uid="uid://hhov1n7ital4" path="res://addons/hein_draw/shaders/checkerBoard.gdshader" id="2_2w1kt"]
+[ext_resource type="PackedScene" uid="uid://jlfhtj5as8nv" path="res://TimeRetical/time_retical.tscn" id="2_eunhr"]
+[ext_resource type="Texture2D" uid="uid://d0jb0sykby4j5" path="res://Images/a0f0ea8b74e7f7853e4c6f392eca8a06.jpg" id="3_qvhan"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qvhan"]
+shader = ExtResource("2_2w1kt")
+shader_parameter/size = 13.65
+shader_parameter/color1 = Color(0.386757, 0.386757, 0.386757, 1)
+shader_parameter/color2 = Color(0.253238, 0.253238, 0.253238, 1)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_yh5la")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.235405, 0.476179, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+color = Color(0.13, 0.13, 0.13, 1)
+
+[node name="Control" parent="CanvasLayer/VBoxContainer/ColorRect" instance=ExtResource("2_eunhr")]
+layout_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/ColorRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="StartButton" type="Button" parent="CanvasLayer/VBoxContainer/ColorRect/HBoxContainer"]
+layout_mode = 2
+text = "Start"
+
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/ColorRect/HBoxContainer"]
+layout_mode = 2
+text = "Previous
+"
+
+[node name="NextButton" type="Button" parent="CanvasLayer/VBoxContainer/ColorRect/HBoxContainer"]
+layout_mode = 2
+text = "Next
+"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CanvasBackground" type="ColorRect" parent="CanvasLayer/VBoxContainer/HBoxContainer"]
+material = SubResource("ShaderMaterial_qvhan")
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -210.0
+offset_top = -210.0
+offset_right = 210.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(420, 420)
+render_target_update_mode = 4
+
+[node name="Canvas" type="ColorRect" parent="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LinesLayer" type="Node2D" parent="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport"]
+unique_name_in_owner = true
+
+[node name="Line2D" type="Line2D" parent="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport/LinesLayer"]
+top_level = true
+
+[node name="ReferenceBackground" type="ColorRect" parent="CanvasLayer/VBoxContainer/HBoxContainer"]
+material = SubResource("ShaderMaterial_qvhan")
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.187176, 0.187176, 0.187176, 1)
+
+[node name="Reference" type="TextureRect" parent="CanvasLayer/VBoxContainer/HBoxContainer/ReferenceBackground"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -176.0
+offset_top = -137.0
+offset_right = 176.0
+offset_bottom = 137.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_qvhan")
+expand_mode = 1
+stretch_mode = 4
+
+[connection signal="button_up" from="CanvasLayer/VBoxContainer/ColorRect/HBoxContainer/StartButton" to="." method="_on_start_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/VBoxContainer/ColorRect/HBoxContainer/NextButton" to="." method="_on_next_button_button_up"]
