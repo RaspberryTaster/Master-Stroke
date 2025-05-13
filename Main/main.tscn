@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://doqnjmjycrfda" path="res://Main/main.gd" id="1_yh5la"]
 [ext_resource type="PackedScene" uid="uid://jlfhtj5as8nv" path="res://TimeRetical/time_retical.tscn" id="2_eunhr"]
 [ext_resource type="Shader" uid="uid://hhov1n7ital4" path="res://checkerBoard.gdshader" id="3_eunhr"]
-[ext_resource type="Texture2D" uid="uid://d0jb0sykby4j5" path="res://a0f0ea8b74e7f7853e4c6f392eca8a06.jpg" id="3_qvhan"]
+[ext_resource type="Texture2D" uid="uid://c3et3kydig8rt" path="res://Refrences/Random_01/random_01.png" id="4_eunhr"]
 
 [sub_resource type="Theme" id="Theme_eunhr"]
 Button/colors/icon_focus_color = Color(1, 1, 1, 0)
@@ -44,15 +44,15 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/VBoxContainer"]
+[node name="TrainingHeader" type="ColorRect" parent="CanvasLayer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 color = Color(0.13, 0.13, 0.13, 1)
 
-[node name="Control" parent="CanvasLayer/VBoxContainer/ColorRect" instance=ExtResource("2_eunhr")]
+[node name="Control" parent="CanvasLayer/VBoxContainer/TrainingHeader" instance=ExtResource("2_eunhr")]
 layout_mode = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/ColorRect"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/TrainingHeader"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -60,17 +60,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="StartButton" type="Button" parent="CanvasLayer/VBoxContainer/ColorRect/HBoxContainer"]
+[node name="StartButton" type="Button" parent="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer"]
 layout_mode = 2
 theme = SubResource("Theme_eunhr")
 text = "Start"
 
-[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/ColorRect/HBoxContainer"]
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer"]
 layout_mode = 2
 text = "Previous
 "
 
-[node name="NextButton" type="Button" parent="CanvasLayer/VBoxContainer/ColorRect/HBoxContainer"]
+[node name="NextButton" type="Button" parent="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer"]
 layout_mode = 2
 text = "Next
 "
@@ -127,23 +127,37 @@ color = Color(0.187176, 0.187176, 0.187176, 1)
 
 [node name="Reference" type="TextureRect" parent="CanvasLayer/VBoxContainer/HBoxContainer/ReferenceBackground"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -176.0
-offset_top = -137.0
-offset_right = 176.0
-offset_bottom = 137.0
+offset_left = -368.0
+offset_top = -552.0
+offset_right = 368.0
+offset_bottom = 552.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_qvhan")
-expand_mode = 1
+texture = ExtResource("4_eunhr")
 stretch_mode = 4
 
-[connection signal="button_up" from="CanvasLayer/VBoxContainer/ColorRect/HBoxContainer/StartButton" to="." method="_on_start_button_button_up"]
-[connection signal="button_up" from="CanvasLayer/VBoxContainer/ColorRect/HBoxContainer/NextButton" to="." method="_on_next_button_button_up"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/VBoxContainer/HBoxContainer/ReferenceBackground"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 252.285
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="button_up" from="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer/StartButton" to="." method="_on_start_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer/NextButton" to="." method="_on_next_button_button_up"]
 [connection signal="mouse_entered" from="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer" to="." method="_on_sub_viewport_container_mouse_entered"]
 [connection signal="mouse_exited" from="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer" to="." method="_on_sub_viewport_container_mouse_exited"]

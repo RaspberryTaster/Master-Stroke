@@ -9,17 +9,26 @@ var mouse_inside_viewport = false
 
 var _current_line: Line2D = null
 
+
+func _ready():
+	TimeManager.on_start.connect(clear_lines)
+	
+func clear_lines():
+	print_debug("CLEAR LINES")
+	var children =  _lines.get_children()
+	for child in children:
+		child.queue_free()
+
 func _input(event):
 	if event is InputEventMouseMotion:
 		var pos = event.position - _subviewport_container.global_position
-		print_debug(pos)
-		print_debug("mouse_position: ", event.position,"subviewport: ",_subviewport.get_mouse_position(), "subtract: ", event.position  -  _subviewport.get_mouse_position())
+	
 		if Input.is_action_pressed("stylus"):
 			if _current_line != null:
 				_current_line.add_point(pos)
 			else:
 				stroke(pos)
-		elif Input.is_action_just_released("stylus"):
+		else:
 			_current_line = null
 		
 				

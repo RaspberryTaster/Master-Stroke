@@ -11,7 +11,8 @@ config_version=5
 [application]
 
 config/name="Master-Stroke"
-run/main_scene="uid://2f2vy11g07hv"
+config/tags=PackedStringArray("utility")
+run/main_scene="uid://cowckgk55djgl"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="uid://jaicaw231b32"
 
@@ -21,8 +22,8 @@ TimeManager="*res://TimeManager/time_manager.tscn"
 
 [display]
 
-window/size/viewport_width=1920
-window/size/viewport_height=1080
+window/size/viewport_width=1440
+window/size/viewport_height=810
 window/stretch/mode="canvas_items"
 
 [input]

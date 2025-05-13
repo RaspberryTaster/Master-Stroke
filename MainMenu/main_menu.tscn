@@ -1,0 +1,87 @@
+[gd_scene load_steps=2 format=3 uid="uid://cowckgk55djgl"]
+
+[ext_resource type="Script" uid="uid://cogoxvkmib5fp" path="res://MainMenu/main_menu.gd" id="1_nhkf3"]
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_nhkf3")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MenuPanel" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MenuPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.5
+offset_top = -81.5
+offset_right = 64.5
+offset_bottom = 81.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/MenuPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Master Stroke"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TraningMode" type="Button" parent="CanvasLayer/MenuPanel/VBoxContainer"]
+layout_mode = 2
+text = "Treaining Mode"
+
+[node name="FreeDrawButton2" type="Button" parent="CanvasLayer/MenuPanel/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="SettingPanel" type="Control" parent="CanvasLayer/MenuPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1440.0
+offset_right = 1440.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MenuPanel/SettingPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.5
+offset_top = -81.5
+offset_right = 64.5
+offset_bottom = 81.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/MenuPanel/SettingPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Master Stroke"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TraningMode" type="Button" parent="CanvasLayer/MenuPanel/SettingPanel/VBoxContainer"]
+layout_mode = 2
+text = "Treaining Mode"
+
+[node name="FreeDrawButton2" type="Button" parent="CanvasLayer/MenuPanel/SettingPanel/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[connection signal="button_up" from="CanvasLayer/MenuPanel/VBoxContainer/TraningMode" to="." method="_on_traning_mode_button_up"]
+[connection signal="button_up" from="CanvasLayer/MenuPanel/SettingPanel/VBoxContainer/TraningMode" to="." method="_on_traning_mode_button_up"]

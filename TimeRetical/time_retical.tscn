@@ -28,6 +28,5 @@ max_value = 1.0
 step = 0.01
 value = 1.0
 fill_mode = 5
-texture_under = ExtResource("1_gemfr")
 texture_progress = ExtResource("1_gemfr")
 tint_progress = Color(1, 0.235405, 0.476179, 1)
