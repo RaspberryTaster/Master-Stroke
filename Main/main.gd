@@ -5,29 +5,32 @@ extends Node2D
 @onready var _subviewport_container := $CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer
 @onready var _subviewport := $CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport
 
-var _pressed: bool = false
+var mouse_inside_viewport = false
+
 var _current_line: Line2D = null
 
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			_pressed = event.pressed
-			
-			if _pressed:
-				var local_mouse_pos =  _subviewport.get_mouse_position()
-				if _is_within_canvas(local_mouse_pos):
-					_current_line = Line2D.new()
-					_current_line.default_color = Color.BLUE
-					_current_line.width = 4
-					_lines.add_child(_current_line)
-					_current_line.add_point(local_mouse_pos)
-					_current_line.add_point(local_mouse_pos + Vector2.ONE)
-
-	elif event is InputEventMouseMotion and _pressed and _current_line:
-		var local_mouse_pos = _subviewport.get_mouse_position()
-		_current_line.add_point(local_mouse_pos)
-
-
+func _input(event):
+	if event is InputEventMouseMotion:
+		var pos = event.position - _subviewport_container.global_position
+		print_debug(pos)
+		print_debug("mouse_position: ", event.position,"subviewport: ",_subviewport.get_mouse_position(), "subtract: ", event.position  -  _subviewport.get_mouse_position())
+		if Input.is_action_pressed("stylus"):
+			if _current_line != null:
+				_current_line.add_point(pos)
+			else:
+				stroke(pos)
+		elif Input.is_action_just_released("stylus"):
+			_current_line = null
+		
+				
+func stroke(_pos):
+	_current_line = Line2D.new()
+	_current_line.default_color = Color.BLACK
+	_current_line.width = 5
+	_lines.add_child(_current_line)
+	_current_line.add_point(_pos)
+	_current_line.add_point(_pos + Vector2.ONE)	
+		
 func _is_within_canvas(pos: Vector2) -> bool:
 	# Use the SubViewport size itself to check bounds
 	return Rect2(Vector2.ZERO, _subviewport.size).has_point(pos)
@@ -39,3 +42,11 @@ func _on_start_button_button_up():
 
 func _on_next_button_button_up():
 	TimeManager.next()
+
+
+func _on_sub_viewport_container_mouse_entered():
+	mouse_inside_viewport = true
+
+
+func _on_sub_viewport_container_mouse_exited():
+	mouse_inside_viewport = false

@@ -1,15 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://2f2vy11g07hv"]
+[gd_scene load_steps=8 format=3 uid="uid://2f2vy11g07hv"]
 
 [ext_resource type="Script" uid="uid://doqnjmjycrfda" path="res://Main/main.gd" id="1_yh5la"]
-[ext_resource type="Shader" uid="uid://hhov1n7ital4" path="res://addons/hein_draw/shaders/checkerBoard.gdshader" id="2_2w1kt"]
 [ext_resource type="PackedScene" uid="uid://jlfhtj5as8nv" path="res://TimeRetical/time_retical.tscn" id="2_eunhr"]
-[ext_resource type="Texture2D" uid="uid://d0jb0sykby4j5" path="res://Images/a0f0ea8b74e7f7853e4c6f392eca8a06.jpg" id="3_qvhan"]
+[ext_resource type="Shader" uid="uid://hhov1n7ital4" path="res://checkerBoard.gdshader" id="3_eunhr"]
+[ext_resource type="Texture2D" uid="uid://d0jb0sykby4j5" path="res://a0f0ea8b74e7f7853e4c6f392eca8a06.jpg" id="3_qvhan"]
+
+[sub_resource type="Theme" id="Theme_eunhr"]
+Button/colors/icon_focus_color = Color(1, 1, 1, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k3v36"]
+shader = ExtResource("3_eunhr")
+shader_parameter/size = 13.65
+shader_parameter/color1 = Color(0.38, 0.38, 0.38, 1)
+shader_parameter/color2 = Color(0.25, 0.25, 0.25, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qvhan"]
-shader = ExtResource("2_2w1kt")
+shader = ExtResource("3_eunhr")
 shader_parameter/size = 13.65
-shader_parameter/color1 = Color(0.386757, 0.386757, 0.386757, 1)
-shader_parameter/color2 = Color(0.253238, 0.253238, 0.253238, 1)
+shader_parameter/color1 = Color(0.38, 0.38, 0.38, 1)
+shader_parameter/color2 = Color(0.25, 0.25, 0.25, 1)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_yh5la")
@@ -44,12 +53,16 @@ color = Color(0.13, 0.13, 0.13, 1)
 layout_mode = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/ColorRect"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="StartButton" type="Button" parent="CanvasLayer/VBoxContainer/ColorRect/HBoxContainer"]
 layout_mode = 2
+theme = SubResource("Theme_eunhr")
 text = "Start"
 
 [node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/ColorRect/HBoxContainer"]
@@ -67,7 +80,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="CanvasBackground" type="ColorRect" parent="CanvasLayer/VBoxContainer/HBoxContainer"]
-material = SubResource("ShaderMaterial_qvhan")
+material = SubResource("ShaderMaterial_k3v36")
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -132,3 +145,5 @@ stretch_mode = 4
 
 [connection signal="button_up" from="CanvasLayer/VBoxContainer/ColorRect/HBoxContainer/StartButton" to="." method="_on_start_button_button_up"]
 [connection signal="button_up" from="CanvasLayer/VBoxContainer/ColorRect/HBoxContainer/NextButton" to="." method="_on_next_button_button_up"]
+[connection signal="mouse_entered" from="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer" to="." method="_on_sub_viewport_container_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer" to="." method="_on_sub_viewport_container_mouse_exited"]

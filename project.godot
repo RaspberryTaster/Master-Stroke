@@ -19,9 +19,11 @@ config/icon="uid://jaicaw231b32"
 
 TimeManager="*res://TimeManager/time_manager.tscn"
 
-[editor_plugins]
+[display]
 
-enabled=PackedStringArray("res://addons/hein_draw/plugin.cfg")
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="canvas_items"
 
 [input]
 
@@ -33,7 +35,7 @@ stylus={
 
 [input_devices]
 
-pen_tablet/driver.windows="winink"
+pen_tablet/driver.windows="auto"
 
 [rendering]
 
