@@ -1,6 +1,7 @@
 class_name  TimeRetical
 extends Control
 
+var percentage_of_time
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	TimeManager.on_start.connect(TimedSketchManager_on_start)
@@ -25,8 +26,8 @@ func _process(delta):
 	
 	pass
 
+
 func update_progress_bar():
-	var elapsed_time = TimeManager.get_time_elapsed()
-	var interval_time = TimeManager.interval_time
-	
-	$TextureProgressBar.value = (elapsed_time / interval_time)*100
+	if TimeManager.timer.get_time_left() >0:
+		percentage_of_time = (1 -  float(TimeManager.timer.get_time_left()) /  TimeManager.timer.get_wait_time())
+		$ProgressBar.value = percentage_of_time

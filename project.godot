@@ -12,13 +12,14 @@ config_version=5
 
 config/name="Master-Stroke"
 config/tags=PackedStringArray("utility")
-run/main_scene="uid://cowckgk55djgl"
+run/main_scene="uid://2f2vy11g07hv"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="uid://jaicaw231b32"
 
 [autoload]
 
 TimeManager="*res://TimeManager/time_manager.tscn"
+SaveLoadManager="*res://SaveLoadManager/save_load_manager.tscn"
 
 [display]
 

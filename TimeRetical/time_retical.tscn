@@ -1,32 +1,37 @@
-[gd_scene load_steps=3 format=3 uid="uid://jlfhtj5as8nv"]
+[gd_scene load_steps=4 format=3 uid="uid://jlfhtj5as8nv"]
 
 [ext_resource type="Script" uid="uid://dvsvarup17sv1" path="res://TimeRetical/time_retical.gd" id="1_5xdws"]
-[ext_resource type="Texture2D" uid="uid://c4dn5v34gwokd" path="res://Images/progress-bar-circle.png" id="1_gemfr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gemfr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5xdws"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
 
 [node name="TimeRetical" type="Control"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 3
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -50.0
-offset_bottom = 50.0
-grow_horizontal = 0
-script = ExtResource("1_5xdws")
-
-[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 78.0
-offset_bottom = 78.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.385, 0.385)
+script = ExtResource("1_5xdws")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+self_modulate = Color(1, 0.235405, 0.476179, 1)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -27.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxEmpty_gemfr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5xdws")
 max_value = 1.0
-step = 0.01
+step = 0.0
 value = 1.0
-fill_mode = 5
-texture_progress = ExtResource("1_gemfr")
-tint_progress = Color(1, 0.235405, 0.476179, 1)
+show_percentage = false
