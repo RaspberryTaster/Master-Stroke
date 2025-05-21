@@ -4,8 +4,13 @@ extends Node2D
 @onready var _draw_canvas: Control = %Canvas
 @onready var _subviewport_container := $CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer
 @onready var _subviewport := $CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport
+
 @onready var reference_viewport_container = $CanvasLayer/VBoxContainer/HBoxContainer/ReferenceBackground/SubViewportContainer
 @onready var reference_subviewport = $CanvasLayer/VBoxContainer/HBoxContainer/ReferenceBackground/SubViewportContainer/SubViewport
+
+@onready var outcome_subviewport_container = $Outcome/SubViewportContainer
+@onready var outcome_subviewport = $Outcome/SubViewportContainer/SubViewport
+
 var mouse_inside_viewport = false
 
 var _current_line: Line2D = null
@@ -14,6 +19,7 @@ var percent = 0
 
 func _process(delta):
 	%PercentLabel.text = str(percent) + "%"
+	
 func _ready():
 	TimeManager.on_start.connect(clear_lines)
 	TimeManager.on_start.connect(start_session)
@@ -30,37 +36,40 @@ func clear_lines():
 func is_background_pixel(c: Color, threshold: float = 0.95) -> bool:
 	return c.a < 0.1 or (c.r > threshold and c.g > threshold and c.b > threshold)
 
-		
-func compare_images_percentage(img1: Image, img2: Image) -> float:
-	var target_width = min(img1.get_width(), img2.get_width())
-	var target_height = min(img1.get_height(), img2.get_height())
-
-	# Resize img1 to match img2
-	var resized_img1 = img1.duplicate()
-	resized_img1.resize(target_width, target_height, Image.INTERPOLATE_LANCZOS)
-
-	var total_considered_pixels = 0
-	var matching_pixels = 0
-
-	for y in range(target_height):
-		for x in range(target_width):
-			var color1 = resized_img1.get_pixel(x, y)
-			var color2 = img2.get_pixel(x, y)
-
-			# Skip white or transparent pixels (e.g. background)
-			if is_background_pixel(color1) and is_background_pixel(color2):
+func calculate_accuracy(shader_result: Image) -> float:
+	var shader = %OutcomeReferenceTexture.material as Material
+	var width = shader_result.get_width()
+	var height = shader_result.get_height()
+	var total_pixels = width * height
+	var reference_area = 0
+	var player_area = 0
+	var overlap_area = 0
+	var correct_color = shader.get_shader_parameter("correct_color")
+	var user_color = shader.get_shader_parameter("user_color")
+	var reference_color = shader.get_shader_parameter("reference_color")
+	for y in height:
+		for x in width:
+			var color = shader_result.get_pixel(x, y)
+			
+			if color.is_equal_approx(Color.WHITE):
 				continue
 
-			total_considered_pixels += 1
+			elif color.is_equal_approx(user_color):
+				player_area += 1
 
-			if colors_are_similar(color1, color2):
-				matching_pixels += 1
-
-	if total_considered_pixels == 0:
-		return 0.0  # Avoid divide-by-zero
-
-	return float(matching_pixels) / total_considered_pixels * 100.0
-
+			elif color.is_equal_approx(reference_color):
+				reference_area += 1
+			else:
+				overlap_area += 1
+				reference_area += 1
+				player_area += 1
+				
+	if reference_area == 0: return 0.0
+	var accuracy = (overlap_area / float(reference_area)) * 100
+	var overdraw_penalty = (player_area - overlap_area) * 0.1
+		
+	return clamp(accuracy, 0.0, 100.0)
+			
 func colors_are_similar(c1: Color, c2: Color, threshold: float = 0.05) -> bool:
 	var dr = abs(c1.r - c2.r)
 	var dg = abs(c1.g - c2.g)
@@ -160,26 +169,43 @@ func _on_export_button_button_up():
 func _on_stop_button_button_up():
 	TimeManager.stop()
 
-
+func get_new_size(size,_limit):
+	pass
+	
 func _on_compare_button_button_up():
+	$CanvasLayer.visible = false
+	$Outcome.visible = true
+	
+	await get_tree().process_frame
+	await get_tree().process_frame  # Double buffer
+	
 	var viewport_texture = _subviewport.get_texture()
 	var image = viewport_texture.get_image()
 	var b = reference_subviewport.get_texture().get_image()
 	
-	#image.save_png("res://drawn_image.png")
-	#b.save_png("res://reference_image.png")
-	percent = compare_images_percentage(image,b)
-	print_debug(percent)
-	$CanvasLayer.visible = false
-	$Outcome.visible = true
+
+	
 	var shader = %OutcomeReferenceTexture.material
+	
 	shader.set_shader_parameter("image_a", viewport_texture)
 	shader.set_shader_parameter("image_b", reference_subviewport.get_texture())
-	%OutcomeReferenceTexture.texture = reference_subviewport.get_texture()
 
-	set_size(%OutcomeReferenceTexture,400)
-	center(%OutcomeReferenceTexture)
+	outcome_subviewport.size.x = reference_subviewport.size.x
+	outcome_subviewport.size.y = reference_subviewport.size.y
 	
+	outcome_subviewport_container.size.x = reference_subviewport.size.x
+	outcome_subviewport_container.size.y =reference_subviewport.size.y	
+
+	center(outcome_subviewport_container)
+		
+	await RenderingServer.frame_post_draw
+		
+	var shader_texture = outcome_subviewport.get_texture()
+	var shader_image = shader_texture.get_image()
+	shader_image.save_png("res://ooga.png")
+	percent = calculate_accuracy(shader_image)
+	
+
 func _on_button_button_up():
 	$Outcome.visible = false
 	$CanvasLayer.visible = true

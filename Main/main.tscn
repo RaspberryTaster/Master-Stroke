@@ -35,14 +35,6 @@ Button/styles/pressed = SubResource("StyleBoxEmpty_ib3t1")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rj11h"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_o60nc"]
-shader = ExtResource("5_f6fdm")
-shader_parameter/image_a = ExtResource("6_rj11h")
-shader_parameter/image_b = ExtResource("7_ib3t1")
-shader_parameter/user_color = Color(1, 0, 0, 1)
-shader_parameter/reference_color = Color(0, 0, 1, 1)
-shader_parameter/correct_color = Color(6.73831e-07, 0.74847, 0.310557, 1)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3v36"]
 bg_color = Color(1, 0.235405, 0.476179, 1)
 
@@ -51,6 +43,14 @@ bg_color = Color(0.544237, 0, 0.22254, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ib3t1"]
 bg_color = Color(1, 0.235405, 0.476179, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o60nc"]
+shader = ExtResource("5_f6fdm")
+shader_parameter/image_a = ExtResource("6_rj11h")
+shader_parameter/image_b = ExtResource("7_ib3t1")
+shader_parameter/user_color = Color(1, 0, 0, 1)
+shader_parameter/reference_color = Color(0, 0, 1, 1)
+shader_parameter/correct_color = Color(6.73831e-07, 0.74847, 0.310557, 1)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_yh5la")
@@ -214,6 +214,7 @@ stretch_mode = 4
 mouse_filter = 2
 
 [node name="Outcome" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="Outcome"]
 material = SubResource("ShaderMaterial_k3v36")
@@ -231,26 +232,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="OutcomeReferenceTexture" type="TextureRect" parent="Outcome/Panel"]
-unique_name_in_owner = true
-material = SubResource("ShaderMaterial_o60nc")
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -150.0
-offset_right = 100.0
-offset_bottom = 150.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("7_ib3t1")
-stretch_mode = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Outcome/Panel"]
 layout_mode = 1
@@ -279,6 +260,34 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_k3v36")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_liyct")
 theme_override_styles/normal = SubResource("StyleBoxFlat_ib3t1")
 text = "Continue"
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Outcome"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -150.0
+offset_right = 100.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="Outcome/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(300, 450)
+render_target_update_mode = 0
+
+[node name="OutcomeReferenceTexture" type="ColorRect" parent="Outcome/SubViewportContainer/SubViewport"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_o60nc")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
 
 [connection signal="button_up" from="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer/StartButton" to="." method="_on_start_button_button_up"]
 [connection signal="button_up" from="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer/NextButton" to="." method="_on_next_button_button_up"]
