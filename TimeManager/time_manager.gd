@@ -19,9 +19,6 @@ func start():
 	if image_ui_counter != null:
 		image_ui_counter.text = str(sketch_count)	
 		image_ui_counter.visible = true	
-	#$"../CanvasLayer/Label".text = str(sketch_count)	
-	#$"../CanvasLayer".visible = true	
-
 func pause():
 	timer.wait_time = interval_time
 	sketch_count+=1
@@ -29,7 +26,7 @@ func pause():
 	if(timer.is_stopped()):return
 	if image_ui_counter != null:
 		image_ui_counter.text = str(sketch_count)
-	#$"../CanvasLayer/Label".text = str(sketch_count)
+
 	timer.start()	
 	on_timed_next.emit()
 		
@@ -40,7 +37,7 @@ func next():
 	if(timer.is_stopped()):return
 	if image_ui_counter != null:
 		image_ui_counter.text = str(sketch_count)
-	#$"../CanvasLayer/Label".text = str(sketch_count)
+
 	timer.start()	
 	on_timed_next.emit()
 
