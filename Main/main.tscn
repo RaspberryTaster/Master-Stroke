@@ -1,12 +1,17 @@
-[gd_scene load_steps=20 format=3 uid="uid://2f2vy11g07hv"]
+[gd_scene load_steps=28 format=3 uid="uid://2f2vy11g07hv"]
 
 [ext_resource type="Script" uid="uid://doqnjmjycrfda" path="res://Main/main.gd" id="1_yh5la"]
 [ext_resource type="PackedScene" uid="uid://jlfhtj5as8nv" path="res://TimeRetical/time_retical.tscn" id="2_eunhr"]
 [ext_resource type="Shader" uid="uid://hhov1n7ital4" path="res://Shader/checkerBoard.gdshader" id="3_eunhr"]
+[ext_resource type="Texture2D" uid="uid://oyjaw3ujub1r" path="res://Images/hamburger-menu.svg" id="3_f6fdm"]
 [ext_resource type="Texture2D" uid="uid://c3et3kydig8rt" path="res://Refrences/Random_01/random_01.png" id="4_eunhr"]
+[ext_resource type="Texture2D" uid="uid://dcrbr7qk8mqso" path="res://Images/next-button (1).svg" id="4_f3gf5"]
 [ext_resource type="Shader" uid="uid://drul86oi7ydwy" path="res://Shader/new_shader.gdshader" id="5_f6fdm"]
+[ext_resource type="Texture2D" uid="uid://dgmdk63051v75" path="res://Images/pause-button.svg" id="5_rix8b"]
+[ext_resource type="Texture2D" uid="uid://ck3ddnjtj6oc0" path="res://Images/play-button.svg" id="6_0jx5h"]
 [ext_resource type="Texture2D" uid="uid://ck2f5cfo11hjt" path="res://output_image.png" id="6_rj11h"]
 [ext_resource type="Texture2D" uid="uid://c8as7kwnm0l8r" path="res://drawn_image.png" id="7_ib3t1"]
+[ext_resource type="Texture2D" uid="uid://bjbe43qssapvr" path="res://Images/next-button.svg" id="7_uhr2j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k3v36"]
 shader = ExtResource("3_eunhr")
@@ -25,15 +30,26 @@ shader_parameter/color2 = Color(0.25, 0.25, 0.25, 1)
 [sub_resource type="Theme" id="Theme_eunhr"]
 Button/colors/font_color = Color(0.74978, 0.74978, 0.74978, 1)
 Button/colors/font_focus_color = Color(0.74902, 0.74902, 0.74902, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_focus_color = Color(0.752941, 0.752941, 0.752941, 1)
+Button/colors/icon_normal_color = Color(0.753984, 0.753984, 0.753984, 1)
 Button/constants/align_to_largest_stylebox = 50
+Button/constants/icon_max_width = 40
 Button/styles/focus = SubResource("StyleBoxEmpty_eunhr")
 Button/styles/hover = SubResource("StyleBoxEmpty_liyct")
 Button/styles/normal = SubResource("StyleBoxEmpty_k3v36")
 Button/styles/pressed = SubResource("StyleBoxEmpty_ib3t1")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f3gf5"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f6fdm"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rj11h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f3gf5"]
+bg_color = Color(0.129412, 0.129412, 0.129412, 1)
+
+[sub_resource type="Theme" id="Theme_f3gf5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3v36"]
 bg_color = Color(1, 0.235405, 0.476179, 1)
@@ -76,63 +92,93 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="TrainingHeader" type="ColorRect" parent="CanvasLayer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-color = Color(0.13, 0.13, 0.13, 1)
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/TrainingHeader"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="StartButton" type="Button" parent="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer"]
-layout_mode = 2
-theme = SubResource("Theme_eunhr")
-text = "Start"
-
-[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer"]
-layout_mode = 2
-theme = SubResource("Theme_eunhr")
-text = "Previous
-"
-
-[node name="NextButton" type="Button" parent="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer"]
-layout_mode = 2
-theme = SubResource("Theme_eunhr")
-text = "Next
-"
-
-[node name="ExportButton" type="Button" parent="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer"]
-layout_mode = 2
-theme = SubResource("Theme_eunhr")
-text = "Export
-"
-
-[node name="StopButton" type="Button" parent="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer"]
-layout_mode = 2
-theme = SubResource("Theme_eunhr")
-text = "Stop"
-
-[node name="CompareButton" type="Button" parent="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer"]
-layout_mode = 2
-theme = SubResource("Theme_eunhr")
-text = "Compare"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="CanvasBackground" type="Panel" parent="CanvasLayer/VBoxContainer/HBoxContainer"]
+[node name="TrainingHeader" type="ColorRect" parent="CanvasLayer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+color = Color(0.13, 0.13, 0.13, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button2" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_eunhr")
+icon = ExtResource("3_f6fdm")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="BackButton" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer2"]
+layout_mode = 2
+theme = SubResource("Theme_eunhr")
+text = "
+"
+icon = ExtResource("4_f3gf5")
+
+[node name="StopButton" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer2"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_eunhr")
+icon = ExtResource("5_rix8b")
+
+[node name="StartButton" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = SubResource("Theme_eunhr")
+icon = ExtResource("6_0jx5h")
+
+[node name="NextBtton" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer2"]
+layout_mode = 2
+theme = SubResource("Theme_eunhr")
+icon = ExtResource("7_uhr2j")
+flat = true
+
+[node name="Panel" type="Panel" parent="CanvasLayer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_f3gf5")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -720.0
+offset_top = -202.5
+offset_right = 720.0
+offset_bottom = 202.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="CanvasBackground" type="Panel" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_f6fdm")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/CanvasBackground"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -147,12 +193,12 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/CanvasBackground/SubViewportContainer"]
 handle_input_locally = false
 size = Vector2i(300, 450)
 render_target_update_mode = 4
 
-[node name="Canvas" type="ColorRect" parent="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport"]
+[node name="Canvas" type="ColorRect" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport"]
 unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
@@ -162,18 +208,18 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="LinesLayer" type="Node2D" parent="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport"]
+[node name="LinesLayer" type="Node2D" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport"]
 unique_name_in_owner = true
 
-[node name="Line2D" type="Line2D" parent="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport/LinesLayer"]
+[node name="Line2D" type="Line2D" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport/LinesLayer"]
 top_level = true
 
-[node name="ReferenceBackground" type="Panel" parent="CanvasLayer/VBoxContainer/HBoxContainer"]
+[node name="ReferenceBackground" type="Panel" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_rj11h")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/ReferenceBackground"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/ReferenceBackground"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -188,12 +234,12 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="CanvasLayer/VBoxContainer/HBoxContainer/ReferenceBackground/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/ReferenceBackground/SubViewportContainer"]
 handle_input_locally = false
 size = Vector2i(300, 450)
 render_target_update_mode = 4
 
-[node name="ReferenceTexture" type="TextureRect" parent="CanvasLayer/VBoxContainer/HBoxContainer/ReferenceBackground/SubViewportContainer/SubViewport"]
+[node name="ReferenceTexture" type="TextureRect" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/ReferenceBackground/SubViewportContainer/SubViewport"]
 unique_name_in_owner = true
 anchors_preset = 8
 anchor_left = 0.5
@@ -210,7 +256,39 @@ texture = ExtResource("4_eunhr")
 expand_mode = 1
 stretch_mode = 4
 
+[node name="SettingPanel" type="Panel" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 113.0
+offset_bottom = -573.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f3gf5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_f3gf5")
+
+[node name="ExportButton" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_eunhr")
+text = "Export
+"
+
+[node name="CompareButton" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_eunhr")
+text = "Compare"
+
 [node name="TimeRetical" parent="CanvasLayer" instance=ExtResource("2_eunhr")]
+visible = false
 mouse_filter = 2
 
 [node name="Outcome" type="CanvasLayer" parent="."]
@@ -289,11 +367,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 
-[connection signal="button_up" from="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer/StartButton" to="." method="_on_start_button_button_up"]
-[connection signal="button_up" from="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer/NextButton" to="." method="_on_next_button_button_up"]
-[connection signal="button_up" from="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer/ExportButton" to="." method="_on_export_button_button_up"]
-[connection signal="button_up" from="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer/StopButton" to="." method="_on_stop_button_button_up"]
-[connection signal="button_up" from="CanvasLayer/VBoxContainer/TrainingHeader/HBoxContainer/CompareButton" to="." method="_on_compare_button_button_up"]
-[connection signal="mouse_entered" from="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer" to="." method="_on_sub_viewport_container_mouse_entered"]
-[connection signal="mouse_exited" from="CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer" to="." method="_on_sub_viewport_container_mouse_exited"]
+[connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer/Button2" to="." method="_on_button_2_button_up"]
+[connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer2/BackButton" to="." method="_on_next_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer2/StopButton" to="." method="_on_stop_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer2/StartButton" to="." method="_on_start_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer2/NextBtton" to="." method="_on_next_button_button_up"]
+[connection signal="mouse_entered" from="CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/CanvasBackground/SubViewportContainer" to="." method="_on_sub_viewport_container_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/CanvasBackground/SubViewportContainer" to="." method="_on_sub_viewport_container_mouse_exited"]
+[connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer/ExportButton" to="." method="_on_export_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer/CompareButton" to="." method="_on_compare_button_button_up"]
 [connection signal="button_up" from="Outcome/Panel/VBoxContainer/Button" to="." method="_on_button_button_up"]

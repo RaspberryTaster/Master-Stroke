@@ -1,12 +1,12 @@
 extends Node2D
 
-@onready var _lines: Node2D = $CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport/LinesLayer/Line2D
+@onready var _lines: Node2D = $CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport/LinesLayer/Line2D
 @onready var _draw_canvas: Control = %Canvas
-@onready var _subviewport_container := $CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer
-@onready var _subviewport := $CanvasLayer/VBoxContainer/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport
+@onready var _subviewport_container := $CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/CanvasBackground/SubViewportContainer
+@onready var _subviewport := $CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/CanvasBackground/SubViewportContainer/SubViewport
 
-@onready var reference_viewport_container = $CanvasLayer/VBoxContainer/HBoxContainer/ReferenceBackground/SubViewportContainer
-@onready var reference_subviewport = $CanvasLayer/VBoxContainer/HBoxContainer/ReferenceBackground/SubViewportContainer/SubViewport
+@onready var reference_viewport_container = $CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/ReferenceBackground/SubViewportContainer
+@onready var reference_subviewport = $CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/ReferenceBackground/SubViewportContainer/SubViewport
 
 @onready var outcome_subviewport_container = $Outcome/SubViewportContainer
 @onready var outcome_subviewport = $Outcome/SubViewportContainer/SubViewport
@@ -104,6 +104,8 @@ func _is_within_canvas(pos: Vector2) -> bool:
 
 
 func _on_start_button_button_up():
+	%StopButton.visible = true
+	%StartButton.visible = false
 	TimeManager.start()
 
 
@@ -167,6 +169,8 @@ func _on_export_button_button_up():
 
 
 func _on_stop_button_button_up():
+	%StopButton.visible = false
+	%StartButton.visible = true
 	TimeManager.stop()
 
 func get_new_size(size,_limit):
@@ -211,3 +215,7 @@ func _on_button_button_up():
 	$CanvasLayer.visible = true
 	TimeManager.next()
 	clear_lines()
+
+
+func _on_button_2_button_up():
+	%SettingPanel.visible = !%SettingPanel.visible
