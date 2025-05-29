@@ -127,6 +127,7 @@ grow_horizontal = 2
 alignment = 1
 
 [node name="BackButton" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer2"]
+visible = false
 layout_mode = 2
 theme = SubResource("Theme_eunhr")
 text = "
@@ -256,33 +257,27 @@ texture = ExtResource("4_eunhr")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="SettingPanel" type="Panel" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel"]
+[node name="SettingPanel" type="PanelContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_right = 113.0
-offset_bottom = -573.0
-grow_vertical = 2
+layout_mode = 0
+offset_right = 157.0
+offset_bottom = 66.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_f3gf5")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 theme = SubResource("Theme_f3gf5")
 
 [node name="ExportButton" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer"]
+visible = false
 layout_mode = 2
 theme = SubResource("Theme_eunhr")
 text = "Export
 "
 
 [node name="CompareButton" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer"]
+visible = false
 layout_mode = 2
 theme = SubResource("Theme_eunhr")
 text = "Compare"
@@ -331,7 +326,19 @@ theme_override_font_sizes/font_size = 50
 text = "95%"
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="Outcome/Panel/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Outcome/Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="RestartButton" type="Button" parent="Outcome/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_eunhr")
+theme_override_styles/hover = SubResource("StyleBoxFlat_k3v36")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_liyct")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ib3t1")
+text = "Restart"
+
+[node name="Button2" type="Button" parent="Outcome/Panel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme = SubResource("Theme_eunhr")
 theme_override_styles/hover = SubResource("StyleBoxFlat_k3v36")
@@ -371,9 +378,10 @@ size_flags_horizontal = 3
 [connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer2/BackButton" to="." method="_on_next_button_button_up"]
 [connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer2/StopButton" to="." method="_on_stop_button_button_up"]
 [connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer2/StartButton" to="." method="_on_start_button_button_up"]
-[connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer2/NextBtton" to="." method="_on_next_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/TrainingHeader/HBoxContainer2/NextBtton" to="." method="_on_compare_button_button_up"]
 [connection signal="mouse_entered" from="CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/CanvasBackground/SubViewportContainer" to="." method="_on_sub_viewport_container_mouse_entered"]
 [connection signal="mouse_exited" from="CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/CanvasBackground/SubViewportContainer" to="." method="_on_sub_viewport_container_mouse_exited"]
 [connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer/ExportButton" to="." method="_on_export_button_button_up"]
 [connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer/CompareButton" to="." method="_on_compare_button_button_up"]
-[connection signal="button_up" from="Outcome/Panel/VBoxContainer/Button" to="." method="_on_button_button_up"]
+[connection signal="button_up" from="Outcome/Panel/VBoxContainer/HBoxContainer/RestartButton" to="." method="_on_restart_button_button_up"]
+[connection signal="button_up" from="Outcome/Panel/VBoxContainer/HBoxContainer/Button2" to="." method="_on_button_button_up"]

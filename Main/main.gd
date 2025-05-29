@@ -219,3 +219,10 @@ func _on_button_button_up():
 
 func _on_button_2_button_up():
 	%SettingPanel.visible = !%SettingPanel.visible
+
+
+func _on_restart_button_button_up():
+	$Outcome.visible = false
+	$CanvasLayer.visible = true
+	TimeManager.next()
+	clear_lines()
