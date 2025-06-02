@@ -3,7 +3,7 @@ extends Node
 signal on_start()
 signal on_timed_next()
 signal on_stop()
-@export var interval_time := 60
+@export var interval_time := 20
 @onready var timer = $Timer
 @export var num_images_to_show := 20 
 var sketch_count := 0

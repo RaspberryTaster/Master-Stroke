@@ -11,22 +11,53 @@ extends Node2D
 @onready var outcome_subviewport_container = $Outcome/SubViewportContainer
 @onready var outcome_subviewport = $Outcome/SubViewportContainer/SubViewport
 
+var vary_reference_resolution = false
+var vary_canvas_resolution = false
+
+
 var mouse_inside_viewport = false
 
 var _current_line: Line2D = null
 
 var percent = 0
 
+var path = ""
+var image_files = []
+var current_image_index = 0
+
+
 func _process(delta):
 	%PercentLabel.text = str(percent) + "%"
 	
 func _ready():
+	ImageNavigationManager.setImage.connect(on_set_image)
 	TimeManager.on_start.connect(clear_lines)
-	TimeManager.on_start.connect(start_session)
 	TimeManager.timeout.connect(_on_compare_button_button_up)
+	SaveLoadManager.load_path()
 	
-	start_session()
-		
+func update_images():
+	if %ReferenceTexture.texture == null:
+		return
+	var width = %ReferenceTexture.texture.get_width()
+	var height = %ReferenceTexture.texture.get_height()
+	var rng = RandomNumberGenerator.new()
+	var size = get_size(Vector2(width,height), 300 if  not	vary_reference_resolution else rng.randi_range(300,600))	
+
+	reference_viewport_container.size = Vector2(size.x, size.y)
+	
+	center(reference_viewport_container)
+	
+	%ReferenceTexture.size =  Vector2(size.x, size.y)
+	
+	_subviewport_container.size = get_size(Vector2(width,height), 300 if 	not vary_canvas_resolution else rng.randi_range(300,600))	
+	center(_subviewport_container)		
+	
+func on_set_image(image_texture):
+	if image_texture == null:
+		return
+	%ReferenceTexture.texture = image_texture
+	update_images()
+
 func clear_lines():
 	print_debug("CLEAR LINES")
 	var children =  _lines.get_children()
@@ -116,6 +147,8 @@ func _on_next_button_button_up():
 func _on_sub_viewport_container_mouse_entered():
 	mouse_inside_viewport = true
 
+
+
 func center(rect):
 	rect.anchor_left = 0.5
 	rect.anchor_right = 0.5
@@ -127,33 +160,17 @@ func center(rect):
 	rect.offset_right = texture_size.x / 2
 	rect.offset_top = -texture_size.y / 2
 	rect.offset_bottom = texture_size.y / 2
+
+func get_size(size :Vector2, limit : float):
+	var width = limit
+	var height = (size.y / size.x) * limit
 	
-func set_size(rect,_size):
-	var ratio = rect.size.x / rect.size.y
-	var width_bigger = rect.size.x > rect.size.y
-	if width_bigger:
-		rect.size.x = _size
-		rect.size.y = rect.size.x * ratio
-	else:
-		rect.size.y = _size
-		rect.size.x = rect.size.y * ratio	
-func start_session():
-	var rect = %ReferenceTexture
-	set_size(rect,300)
-	 
-	_subviewport_container.size.x = rect.size.x
-	_subviewport_container.size.y = rect.size.y
+	if height > limit:
+		height = limit
+		width = (size.x/size.y) * limit
 	
-	reference_viewport_container.size.x = rect.size.x
-	reference_viewport_container.size.y = rect.size.y	
-	
-	_lines.points.clear()
-	
-	center(reference_viewport_container)		
-	center(_subviewport_container)	
-	center(rect)
-	
-	
+	return Vector2(width,height)
+
 		
 func _on_sub_viewport_container_mouse_exited():
 	mouse_inside_viewport = false
@@ -177,42 +194,50 @@ func get_new_size(size,_limit):
 	pass
 	
 func _on_compare_button_button_up():
-	$CanvasLayer.visible = false
-	$Outcome.visible = true
 	
 	await get_tree().process_frame
 	await get_tree().process_frame  # Double buffer
 	
 	var viewport_texture = _subviewport.get_texture()
-	var image = viewport_texture.get_image()
-	var b = reference_subviewport.get_texture().get_image()
-	
-
 	
 	var shader = %OutcomeReferenceTexture.material
 	
 	shader.set_shader_parameter("image_a", viewport_texture)
 	shader.set_shader_parameter("image_b", reference_subviewport.get_texture())
-
-	outcome_subviewport.size.x = reference_subviewport.size.x
-	outcome_subviewport.size.y = reference_subviewport.size.y
 	
-	outcome_subviewport_container.size.x = reference_subviewport.size.x
-	outcome_subviewport_container.size.y =reference_subviewport.size.y	
+	outcome_subviewport_container.size = get_size(reference_subviewport.size,500)
 
 	center(outcome_subviewport_container)
 		
 	await RenderingServer.frame_post_draw
-		
+	
+	$CanvasLayer.visible = false
+	$Outcome.visible = true	
 	var shader_texture = outcome_subviewport.get_texture()
 	var shader_image = shader_texture.get_image()
 	shader_image.save_png("res://ooga.png")
 	percent = calculate_accuracy(shader_image)
 	
-
+func save():
+	SaveLoadManager.save_dict["vary_reference_scale"] = vary_reference_resolution 
+	SaveLoadManager.save_dict["vary_canvas_scale"] = vary_canvas_resolution	
+	
+func load():
+	if SaveLoadManager.save_dict.has("image_path"):
+		%FileDialog.current_dir = SaveLoadManager.save_dict["image_path"]
+	
+	if SaveLoadManager.save_dict.has("vary_reference_scale"):
+		%ReferenceScaleToggle.button_pressed = SaveLoadManager.save_dict["vary_reference_scale"]
+		vary_reference_resolution = SaveLoadManager.save_dict["vary_reference_scale"]
+	if SaveLoadManager.save_dict.has("vary_canvas_scale"):
+		%CanvasScaleToggle.button_pressed = SaveLoadManager.save_dict["vary_canvas_scale"]		
+		vary_canvas_resolution = SaveLoadManager.save_dict["vary_canvas_scale"]		
+		
 func _on_button_button_up():
 	$Outcome.visible = false
 	$CanvasLayer.visible = true
+
+	ImageNavigationManager.next_image()
 	TimeManager.next()
 	clear_lines()
 
@@ -226,3 +251,36 @@ func _on_restart_button_button_up():
 	$CanvasLayer.visible = true
 	TimeManager.next()
 	clear_lines()
+
+
+func _on_find_references_button_up():
+	%FileDialog.visible = true
+
+
+
+func _on_file_dialog_dir_selected(dir):
+	ImageNavigationManager._on_file_dialog_dir_selected(dir)
+
+
+func _on_file_dialog_canceled():
+		%SettingPanel.visible = false
+
+
+func _on_file_dialog_confirmed():
+		%SettingPanel.visible = false
+
+
+
+func _on_tree_exited():
+	ImageNavigationManager.save()
+
+
+func _on_canvas_resolution_toggle_toggled(toggled_on):
+	vary_canvas_resolution = toggled_on
+	update_images()
+	SaveLoadManager.save_dict["vary_canvas_scale"] = vary_canvas_resolution	
+
+func _on_reference_resolution_toggle_toggled(toggled_on):
+	vary_reference_resolution = toggled_on
+	update_images()
+	SaveLoadManager.save_dict["vary_reference_scale"] = vary_reference_resolution 

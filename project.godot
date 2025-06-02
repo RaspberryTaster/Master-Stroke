@@ -20,6 +20,7 @@ config/icon="uid://jaicaw231b32"
 
 TimeManager="*res://TimeManager/time_manager.tscn"
 SaveLoadManager="*res://SaveLoadManager/save_load_manager.tscn"
+ImageNavigationManager="*res://ImageNavigationManager/image_navigation_manager.tscn"
 
 [display]
 

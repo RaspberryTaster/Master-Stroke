@@ -1,7 +1,7 @@
 extends Node
 
 var image_path = ""
-var save_dict = {}
+var save_dict := {}
 const SAVE_GAME_PATH := "user://save_data.save"
 
 func save_path():
@@ -25,22 +25,21 @@ func save_path():
 		
 
 func load_path():
-	if not FileAccess.file_exists(SAVE_GAME_PATH):
-			return
+
+
 			
 	var save_nodes = get_tree().get_nodes_in_group("Persist")		
-	
-	var save_data = FileAccess.open(SAVE_GAME_PATH, FileAccess.READ)
-	var json_string = save_data.get_line()
-	var json = JSON.new()
-	var parse_result = json.parse(json_string)
-	if not parse_result == OK:
-		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
-		return
-	
-	save_dict = json.get_data()
+	if FileAccess.file_exists(SAVE_GAME_PATH):
+		var save_data = FileAccess.open(SAVE_GAME_PATH, FileAccess.READ)
+		var json_string = save_data.get_line()
+		var json = JSON.new()
+		var parse_result = json.parse(json_string)
+		if not parse_result == OK:
+			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+		else:
+			save_dict = json.get_data()
 	#save_dict["cur_camera_zoom"] = parse_result["cur_camera_zoom"]
-	print(save_dict)
+			print(save_dict)
 	
 	for node in save_nodes:
 		# Check the node is an instanced scene so it can be instanced again during load.

@@ -4,6 +4,7 @@
 
 [node name="TimeManager" type="Node"]
 script = ExtResource("1_kaykb")
+interval_time = 2
 
 [node name="Timer" type="Timer" parent="."]
 
