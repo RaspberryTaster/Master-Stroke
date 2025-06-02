@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://2f2vy11g07hv"]
+[gd_scene load_steps=28 format=3 uid="uid://2f2vy11g07hv"]
 
 [ext_resource type="Script" uid="uid://doqnjmjycrfda" path="res://Main/main.gd" id="1_yh5la"]
 [ext_resource type="PackedScene" uid="uid://jlfhtj5as8nv" path="res://TimeRetical/time_retical.tscn" id="2_eunhr"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://ck2f5cfo11hjt" path="res://output_image.png" id="6_rj11h"]
 [ext_resource type="Texture2D" uid="uid://c8as7kwnm0l8r" path="res://drawn_image.png" id="7_ib3t1"]
 [ext_resource type="Texture2D" uid="uid://bjbe43qssapvr" path="res://Images/next-button.svg" id="7_uhr2j"]
+[ext_resource type="Script" uid="uid://b4m66ookf5n7d" path="res://Main/line_edit.gd" id="8_f3gf5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k3v36"]
 shader = ExtResource("3_eunhr")
@@ -271,7 +272,6 @@ stretch_mode = 4
 
 [node name="SettingPanel" type="PanelContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 0
 offset_right = 157.0
 offset_bottom = 66.0
@@ -282,6 +282,7 @@ layout_mode = 2
 theme = SubResource("Theme_f3gf5")
 
 [node name="FindReferences" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer"]
+visible = false
 layout_mode = 2
 theme = SubResource("Theme_eunhr")
 text = "Find References
@@ -298,6 +299,22 @@ unique_name_in_owner = true
 layout_mode = 2
 theme = SubResource("Theme_eunhr")
 text = " Vary Reference Scale"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Time"
+
+[node name="TimeLineEdit" type="LineEdit" parent="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "2"
+alignment = 1
+script = ExtResource("8_f3gf5")
 
 [node name="TimeRetical" parent="CanvasLayer" instance=ExtResource("2_eunhr")]
 visible = false
@@ -410,6 +427,8 @@ file_mode = 2
 [connection signal="button_up" from="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer/FindReferences" to="." method="_on_find_references_button_up"]
 [connection signal="toggled" from="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer/CanvasScaleToggle" to="." method="_on_canvas_resolution_toggle_toggled"]
 [connection signal="toggled" from="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer/ReferenceScaleToggle" to="." method="_on_reference_resolution_toggle_toggled"]
+[connection signal="gui_input" from="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer/HBoxContainer/TimeLineEdit" to="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer/HBoxContainer/TimeLineEdit" method="_on_gui_input"]
+[connection signal="text_changed" from="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer/HBoxContainer/TimeLineEdit" to="CanvasLayer/VBoxContainer/VBoxContainer/Panel/SettingPanel/VBoxContainer/HBoxContainer/TimeLineEdit" method="_on_text_changed"]
 [connection signal="button_up" from="Outcome/Panel/VBoxContainer/HBoxContainer/RestartButton" to="." method="_on_restart_button_button_up"]
 [connection signal="button_up" from="Outcome/Panel/VBoxContainer/HBoxContainer/Button2" to="." method="_on_button_button_up"]
 [connection signal="canceled" from="FileDialog" to="." method="_on_file_dialog_canceled"]

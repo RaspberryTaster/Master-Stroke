@@ -221,6 +221,7 @@ func _on_compare_button_button_up():
 func save():
 	SaveLoadManager.save_dict["vary_reference_scale"] = vary_reference_resolution 
 	SaveLoadManager.save_dict["vary_canvas_scale"] = vary_canvas_resolution	
+	SaveLoadManager.save_dict["interval_time"] = TimeManager.interval_time
 	
 func load():
 	if SaveLoadManager.save_dict.has("image_path"):
@@ -232,7 +233,9 @@ func load():
 	if SaveLoadManager.save_dict.has("vary_canvas_scale"):
 		%CanvasScaleToggle.button_pressed = SaveLoadManager.save_dict["vary_canvas_scale"]		
 		vary_canvas_resolution = SaveLoadManager.save_dict["vary_canvas_scale"]		
-		
+	if SaveLoadManager.save_dict.has("interval_time"):
+		TimeManager.interval_time = SaveLoadManager.save_dict["interval_time"]		
+		%TimeLineEdit.placeholder_text = 	str(SaveLoadManager.save_dict["interval_time"])		
 func _on_button_button_up():
 	$Outcome.visible = false
 	$CanvasLayer.visible = true
