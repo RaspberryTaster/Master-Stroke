@@ -8,8 +8,8 @@ extends Node2D
 @onready var reference_viewport_container = $CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/ReferenceBackground/SubViewportContainer
 @onready var reference_subviewport = $CanvasLayer/VBoxContainer/VBoxContainer/Panel/HBoxContainer/ReferenceBackground/SubViewportContainer/SubViewport
 
-@onready var outcome_subviewport_container = $Outcome/SubViewportContainer
-@onready var outcome_subviewport = $Outcome/SubViewportContainer/SubViewport
+@onready var outcome_subviewport_container = $Outcome/CenterContainer/SubViewportContainer
+@onready var outcome_subviewport = $Outcome/CenterContainer/SubViewportContainer/SubViewport
 
 var vary_reference_resolution = false
 var vary_canvas_resolution = false
@@ -205,9 +205,9 @@ func _on_compare_button_button_up():
 	shader.set_shader_parameter("image_a", viewport_texture)
 	shader.set_shader_parameter("image_b", reference_subviewport.get_texture())
 	
-	outcome_subviewport_container.size = get_size(reference_subviewport.size,500)
+	outcome_subviewport.size = get_size(reference_subviewport.size,500)
 
-	center(outcome_subviewport_container)
+	#center(outcome_subviewport_container)
 		
 	await RenderingServer.frame_post_draw
 	

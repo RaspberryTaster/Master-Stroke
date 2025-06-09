@@ -12,8 +12,8 @@ void fragment() {
     vec4 color_b = texture(image_b, UV);
 
     // Improved line detection with alpha consideration
-    bool is_drawn_a = color_a.a > 0.1 && length(color_a.rgb) < 1.732;
-    bool is_drawn_b = color_b.a > 0.1 && length(color_b.rgb) < 1.732;
+    bool is_drawn_a = color_a.a > 0.1 && length(color_a.rgb) < 1.0;
+    bool is_drawn_b = color_b.a > 0.1 && length(color_b.rgb) < 1.0;
 
     vec3 result = vec3(1.0); // White background
 
